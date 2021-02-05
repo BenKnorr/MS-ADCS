@@ -1,0 +1,17 @@
+ $adCS_RSAT_status=Get-WindowsFeature RSAT-ADCS
+if (($adCS_RSAT_status).installstate -eq "Available"){
+    write-host "RSAT for AD Certificate Services not found locally; installing..."
+    try{
+        Install-WindowsFeature -IncludeAllSubFeature RSAT-ADCS
+        write-host "RSAT for Certificate Services installed successfully!" -ForegroundColor Cyan
+    }
+    catch{
+        write-host $Error -ForegroundColor Red
+    }
+}
+elseif (($adCS_RSAT_status).installstate -eq "Installed"){
+    write-host "RSAT tools for AD CS are already installed" -ForegroundColor Green
+}
+else {
+    write-host "something else happened..."
+}
